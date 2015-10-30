@@ -2,7 +2,8 @@
 " Will add some goodness later
 
 set nocompatible
-set runtimepath+=~/.vim/bundle/vim-plug
+set runtimepath+=~/.vim/plugged/vim-plug
+set encoding=utf-8
 
 "So lets install some goodness here
 
@@ -18,7 +19,7 @@ endif
 " Scotty, beam me up!
 source ~/.vim/plugged/vim-plug/plug.vim
 
-" Install what we need 
+" Install what we need
 call plug#begin('~/.vim/plugged')
 
 " Install core dev stuff
@@ -115,7 +116,7 @@ Plug 'IndexedSearch'
 Plug 'kien/ctrlp.vim'
 
 
-Plug 'klen/python-mode'
+"Plug 'klen/python-mode'
 
 Plug 'majutsushi/tagbar'
 
@@ -145,8 +146,39 @@ Plug 'tomtom/tlib_vim'
 
 Plug 'tpope/vim-surround'
 
+Plug 'Wombat'
+
+Plug 'YankRing.vim'
+
+Plug 'tmhedberg/SimpylFold'
+
+Plug 'vim-scripts/indentpython.vim'
+
 call plug#end()
 
 if exists('g:first_time_run')
 	PlugUpdate
 endif
+
+"Let's configure the mess
+" Enable folding
+set foldmethod=indent
+set foldlevel=99
+let g:SimpyFold_docstring_preview=1
+autocmd BufWinEnter *.py setlocal foldexpr=SimpyFold(v:lnum) foldmethod=expr
+autocmd BufWinLeave *.py setlocal foldexpr< foldmethod<
+"nnoremap <space> za
+"
+"
+"
+"Helping Python Indentation
+au BufNewFile,BufRead *.py
+	\ set tabstop=4
+	\ set softtabstop=4
+	\ set shiftwidth=4
+	\ set textwidth=79
+	\ set expandtab
+	\ set autoindent
+	\ set fileformat=unix
+	\ match BadWhitespace /\s\+$/
+
