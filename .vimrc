@@ -17,7 +17,7 @@ if !filereadable(vimplug)
 endif
 
 " Scotty, beam me up!
-source ~/.vim/plugged/vim-plug/plug.vim
+source ~/.vim/bundle/vim-plug/plug.vim
 
 " Install what we need
 call plug#begin('~/.vim/plugged')
