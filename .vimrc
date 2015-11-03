@@ -63,33 +63,11 @@ Plug 'SirVer/ultisnips'
 " Cool git stuff
 Plug 'tpope/vim-fugitive'
 
-"Plug 'amirh/HTML-AutoCloseTag'
-
-
-
-
-
-
-
-
-"Plug 'luochen1990/rainbow'
-
-
 Plug 'marciomazza/vim-autopep8'
-
-
 
 Plug 'scrooloose/nerdtree'
 
-
-
 Plug 'terryma/vim-multiple-cursors'
-
-
-
-"Plug 'tpope/vim-haml'
-
-"Plug 'tpope/vim-surround'
 
 Plug 'vim-scripts/grep.vim'
 
@@ -114,9 +92,6 @@ Plug 'honza/vim-snippets'
 Plug 'IndexedSearch'
 
 Plug 'kien/ctrlp.vim'
-
-
-"Plug 'klen/python-mode'
 
 Plug 'majutsushi/tagbar'
 
@@ -181,4 +156,87 @@ au BufNewFile,BufRead *.py
 	\ set autoindent
 	\ set fileformat=unix
 	\ match BadWhitespace /\s\+$/
+
+" Fix backspace indent
+set backspace=indent,eol,start
+
+"" Map leader to ,
+let mapleader=','
+
+"" Enable hidden buffers
+set hidden
+
+"" Searching
+set hlsearch
+set incsearch
+set ignorecase
+set smartcase
+
+"" Encoding
+set bomb
+set binary
+set ttyfast
+
+"" Directories for swp files
+set nobackup
+set noswapfile
+
+set fileformats=unix,dos,mac
+set showcmd
+set shell=/bin/sh
+
+" Reload files automatically
+set autoread
+
+"" Visual Settings
+syntax on
+set ruler
+set number
+
+let no_buffers_menu=1
+set t_Co=256
+colorscheme solarized
+
+set mousemodel=popup
+set nocursorline
+
+
+"" Status Bar
+set laststatus=2
+
+"" Use modeline overrides
+set modeline
+set modelines=10
+
+set title
+set titleold="Terminal"
+set titlestring=%F
+
+set statusline=%F%m%r%h%w%=(%{&ff}/%Y)\ (line\ %l\/%L,\ col\ %c)\
+
+if exists("*fugitive#statusline")
+	set statusline+=%{fugitive#statusline()}
+endif
+
+" vim-airline
+let g:airline_theme = 'powerlineish'
+let g:airline#extensions#syntastic#enabled = 1
+let g:airline#extensions#branch#enabled = 1
+let g:airline#extensions#tabline#enabled = 1
+let g:airline_powerline_fonts = 1
+
+set ttimeoutlen=50
+
+"" Abbreviations
+
+cnoreabbrev W! w!
+cnoreabbrev Q! q!
+cnoreabbrev Qall! qall!
+cnoreabbrev Wq wq
+cnoreabbrev Wa wa
+cnoreabbrev wQ wq
+cnoreabbrev WQ wq
+cnoreabbrev W w
+cnoreabbrev Q q
+cnoreabbrev Qall qall
 
