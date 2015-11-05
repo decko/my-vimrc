@@ -37,7 +37,6 @@ Plug 'majutsushi/tagbar'
 Plug 'tpope/vim-commentary'
 
 " HTML/CSS and JS stuff
-Plug 'mattn/emmet-vim'
 Plug 'othree/html5.vim'
 Plug 'hail2u/vim-css3-syntax'
 Plug 'matchit.zip'
@@ -62,6 +61,9 @@ Plug 'SirVer/ultisnips'
 
 " Cool git stuff
 Plug 'tpope/vim-fugitive'
+
+" Solarized Color Scheme
+Plug 'altercation/vim-colors-solarized'
 
 Plug 'marciomazza/vim-autopep8'
 
@@ -129,6 +131,8 @@ Plug 'tmhedberg/SimpylFold'
 
 Plug 'vim-scripts/indentpython.vim'
 
+Plug 'suan/vim-instant-markdown'
+
 call plug#end()
 
 if exists('g:first_time_run')
@@ -193,8 +197,14 @@ syntax on
 set ruler
 set number
 
+"" Configuring vim-instant-markdown"
+let g:instant_markdown_autostart=0
+
+"" Configuring darksolarized colorscheme
+set term=screen-256color-bce
 let no_buffers_menu=1
 set t_Co=256
+set background=dark
 colorscheme solarized
 
 set mousemodel=popup
