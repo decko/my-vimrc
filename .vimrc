@@ -43,11 +43,16 @@ Plug 'matchit.zip'
 Plug 'gorodinskiy/vim-coloresque'
 
 " Python dev
-Plug 'klen/python-mode'
+Plug 'Shougo/neocomplete.vim'
+Plug 'Shougo/neoinclude.vim'
+Plug 'davidhalter/jedi-vim'
 Plug 'fisadev/vim-isort'
 Plug 'alfredodeza/pytest.vim'
 Plug 'hdima/python-syntax'
 "Plug 'mindriot101/vim-yapf'
+Plug 'vim-scripts/indentpython.vim'
+Plug 'hynek/vim-python-pep8-indent', {'for': 'python'}
+
 Plug 'airblade/vim-gitgutter'
 
 " Vim Buffer/Window/Tab Management
@@ -56,8 +61,8 @@ Plug 'ctrlpvim/ctrlp.vim'
 Plug 'ervandew/supertab'
 
 " Code Snippets
-Plug 'honza/vim-snippets'
 Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
 
 " Cool git stuff
 Plug 'tpope/vim-fugitive'
@@ -65,9 +70,16 @@ Plug 'tpope/vim-fugitive'
 " Solarized Color Scheme
 Plug 'altercation/vim-colors-solarized'
 
+
+" Navigation
+Plug 'scrooloose/nerdtree'
+Plug 'kien/ctrlp.vim'
+Plug 'fisadev/vim-ctrlp-cmdpalette'
+Plug 'scrooloose/nerdcommenter'
+
+
 Plug 'marciomazza/vim-autopep8'
 
-Plug 'scrooloose/nerdtree'
 
 Plug 'terryma/vim-multiple-cursors'
 
@@ -75,25 +87,11 @@ Plug 'vim-scripts/grep.vim'
 
 Plug 'fisadev/dragvisuals.vim'
 
-Plug 'fisadev/fisa-vim-colorscheme'
-
-Plug 'fisadev/FixedTaskList.vim'
-
-Plug 'fisadev/vim-ctrlp-cmdpalette'
-
-Plug 'fisadev/vim-debug.vim'
-
-Plug 'fisadev/vim-isort'
-
-Plug 'garbas/vim-snipmate'
 
 Plug 'gmarik/vundle'
 
-Plug 'honza/vim-snippets'
-
 Plug 'IndexedSearch'
 
-Plug 'kien/ctrlp.vim'
 
 Plug 'majutsushi/tagbar'
 
@@ -109,13 +107,10 @@ Plug 'motemen/git-vim'
 
 Plug 'rosenfeld/conque-term'
 
-Plug 'scrooloose/nerdcommenter'
 
-Plug 'scrooloose/nerdtree'
 
 Plug 'scrooloose/syntastic'
 
-Plug 'Shougo/neocomplcache.vim'
 
 Plug 't9md/vim-choosewin'
 
@@ -129,7 +124,6 @@ Plug 'YankRing.vim'
 
 Plug 'tmhedberg/SimpylFold'
 
-Plug 'vim-scripts/indentpython.vim'
 
 Plug 'suan/vim-instant-markdown'
 
@@ -151,15 +145,16 @@ autocmd BufWinLeave *.py setlocal foldexpr< foldmethod<
 "
 "
 "Helping Python Indentation
-au BufNewFile,BufRead *.py
-	\ set tabstop=4
-	\ set softtabstop=4
-	\ set shiftwidth=4
-	\ set textwidth=79
-	\ set expandtab
-	\ set autoindent
-	\ set fileformat=unix
-	\ match BadWhitespace /\s\+$/
+au BufNewFile,BufRead *.py 
+	\ setlocal tabstop=4
+	\ softtabstop=4
+	\ shiftwidth=4
+	\ textwidth=79
+	\ expandtab
+	\ autoindent
+	\ fileformat=unix
+
+"au BufNewFile,BufRead *.py match BadWhitespace /\s\+$/
 
 " Fix backspace indent
 set backspace=indent,eol,start
@@ -249,4 +244,119 @@ cnoreabbrev WQ wq
 cnoreabbrev W w
 cnoreabbrev Q q
 cnoreabbrev Qall qall
+
+" Configuring UltiSnips
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="<c-b>"
+let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+
+" Disable AutoComplPop.
+let g:acp_enableAtStartup = 0
+" " Use neocomplete.
+let g:neocomplete#enable_at_startup = 1
+" " Use smartcase.
+let g:neocomplete#enable_smart_case = 1
+" " Set minimum syntax keyword length.
+let g:neocomplete#sources#syntax#min_keyword_length = 3
+let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
+"
+
+" Define keyword.
+if !exists('g:neocomplete#keyword_patterns')
+    let g:neocomplete#keyword_patterns = {}
+    endif
+    let g:neocomplete#keyword_patterns['default'] = '\h\w*'
+"
+"     " Plugin key-mappings.
+    inoremap <expr><C-g>     neocomplete#undo_completion()
+    inoremap <expr><C-l>     neocomplete#complete_common_string()
+"
+"" Recommended key-mappings.
+" <CR>: close popup and save indent.
+" inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+" function! s:my_cr_function()
+"   return (pumvisible() ? "\<C-y>" : "" ) . "\<CR>"
+  " For no inserting <CR> key.
+  "   "return pumvisible() ? "\<C-y>" : "\<CR>"
+  "   endfunction
+  "   " <TAB>: completion.
+inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+  "   " <C-h>, <BS>: close popup and delete backword char.
+inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
+inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
+  "   " Close popup by <Space>.
+inoremap <expr><Space> pumvisible() ? "\<C-y>" : "\<Space>"
+
+let g:neocomplete#enable_auto_select = 1
+
+autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+" autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+autocmd FileType python setlocal omnifunc=jedi#completions
+
+let g:jedi#completions_enabled = 0
+let g:jedi#auto_vim_configuration = 0
+let g:jedi#smart_auto_mappings = 0
+let g:jedi#goto_assignments_command = "<leader>g"
+let g:jedi#goto_definitions_command = "<leader>d"
+
+if !exists('g:neocomplete#force_omni_input_patterns')
+	let g:neocomplete#force_omni_input_patterns = {}
+endif
+let g:neocomplete#force_omni_input_patterns.python = '\%([^. \t]\.\|^\s*@\|^\s*from\s.\+import \|^\s*from \|^\s*import \)\w*'
+
+
+let g:NERDTreeChDirMode=2
+let g:NERDTreeIgnore=['\.rbc$', '\~$', '\.pyc$', '\.db$', '\.sqlite$', '__pycache__']
+let g:NERDTreeSortOrder=['^__\.py$', '\/$', '*', '\.swp$', '\.bak$', '\~$']
+let g:NERDTreeShowBookmarks=1
+let g:nerdtree_tabs_focus_on_files=1
+let g:NERDTreeMapOpenInTabSilent = '<RightMouse>'
+let g:NERDTreeWinSize = 30
+let g:NERDTreeShowHidden = 1
+let g:NERDTreeQuitOnOpen = 1
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc,*.db,*.sqlite
+nnoremap <silent> <F2> :NERDTreeFind<CR>
+noremap <F3> :NERDTreeToggle<CR>
+
+
+"""*****************************************************************************
+"" Mappings
+"""*****************************************************************************
+""" Split
+noremap <Leader>h :<C-u>split<CR>
+noremap <Leader>v :<C-u>vsplit<CR>
+
+" ctrlp.vim
+set wildmode=list:longest,list:full
+set wildignore+=*.o,*.obj,.git,*.rbc,*.pyc,__pycache__
+let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn|tox)$'
+let g:ctrlp_user_command = "find %s -type f | grep -Ev '"+ g:ctrlp_custom_ignore +"'"
+let g:ctrlp_use_caching = 0
+cnoremap <C-P> <C-R>=expand("%:p:h") . "/" <CR>
+noremap <leader>b :CtrlPBuffer<CR>
+let g:ctrlp_map = '<leader>e'
+let g:ctrlp_open_new_file = 'r'
+
+"" Buffer nav
+noremap <S-Tab>   :bp<CR>
+noremap <leader>z :bp<CR>
+noremap <leader>q :bp<CR>
+
+noremap <Tab>     :bn<CR>
+noremap <leader>x :bn<CR>
+noremap <leader>w :bn<CR>
+
+"" Close buffer
+noremap <leader>c :bd<CR>"
+
+" Tagbar
+nmap <silent> <F4> :TagbarToggle<CR>
+let g:tagbar_autoclose = 1
+
+" supertab
+let g:SuperTabDefaultCompletionType = "context"
+
 
