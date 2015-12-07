@@ -52,6 +52,7 @@ Plug 'hdima/python-syntax'
 "Plug 'mindriot101/vim-yapf'
 Plug 'vim-scripts/indentpython.vim'
 Plug 'hynek/vim-python-pep8-indent', {'for': 'python'}
+Plug 'lepture/vim-jinja', {'for': 'jinja'}
 
 Plug 'airblade/vim-gitgutter'
 
@@ -69,7 +70,7 @@ Plug 'tpope/vim-fugitive'
 
 " Solarized Color Scheme
 Plug 'altercation/vim-colors-solarized'
-
+Plug 'jnurmine/Zenburn'
 
 " Navigation
 Plug 'scrooloose/nerdtree'
@@ -140,11 +141,10 @@ set foldlevel=99
 let g:SimpyFold_docstring_preview=1
 autocmd BufWinEnter *.py setlocal foldexpr=SimpyFold(v:lnum) foldmethod=expr
 autocmd BufWinLeave *.py setlocal foldexpr< foldmethod<
-"nnoremap <space> za
-"
-"
-"
+
 "Helping Python Indentation
+highlight BadWhitespace ctermbg=red guibg=red
+
 au BufNewFile,BufRead *.py 
 	\ setlocal tabstop=4
 	\ softtabstop=4
@@ -154,7 +154,7 @@ au BufNewFile,BufRead *.py
 	\ autoindent
 	\ fileformat=unix
 
-"au BufNewFile,BufRead *.py match BadWhitespace /\s\+$/
+au BufNewFile,BufRead *.py match BadWhitespace /\s\+$/
 
 " Fix backspace indent
 set backspace=indent,eol,start
@@ -359,4 +359,12 @@ let g:tagbar_autoclose = 1
 " supertab
 let g:SuperTabDefaultCompletionType = "context"
 
+" Enable folding
+set foldmethod=indent
+set foldlevel=99
 
+" Enable folding with the spacebar
+nnoremap <space> za
+
+" Enable doctring preview for folded code.
+let g:SimpylFold_docstring_preview=1
