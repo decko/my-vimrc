@@ -4,7 +4,7 @@
 set nocompatible
 set runtimepath+=~/.vim/plugged/vim-plug
 set encoding=utf-8
-
+filetype off
 "So lets install some goodness here
 
 let vimplug=expand('~/.vim/bundle/vim-plug/plug.vim')
@@ -76,7 +76,8 @@ Plug 'jnurmine/Zenburn'
 Plug 'scrooloose/nerdtree'
 Plug 'kien/ctrlp.vim'
 Plug 'fisadev/vim-ctrlp-cmdpalette'
-Plug 'scrooloose/nerdcommenter'
+" Plug 'scrooloose/nerdcommenter'
+Plug 'tpope/vim-commentary'
 
 
 Plug 'marciomazza/vim-autopep8'
@@ -119,12 +120,7 @@ Plug 'tomtom/tlib_vim'
 
 Plug 'tpope/vim-surround'
 
-Plug 'Wombat'
-
-Plug 'YankRing.vim'
-
 Plug 'tmhedberg/SimpylFold'
-
 
 Plug 'suan/vim-instant-markdown'
 
@@ -134,6 +130,9 @@ if exists('g:first_time_run')
 	PlugUpdate
 endif
 
+" filetype plugin indent on
+" syntax on
+
 "Let's configure the mess
 " Enable folding
 set foldmethod=indent
@@ -141,6 +140,11 @@ set foldlevel=99
 let g:SimpyFold_docstring_preview=1
 autocmd BufWinEnter *.py setlocal foldexpr=SimpyFold(v:lnum) foldmethod=expr
 autocmd BufWinLeave *.py setlocal foldexpr< foldmethod<
+
+" And enable some exceptions
+autocmd FileType html setlocal shiftwidth=2 tabstop=2 softtabstop=2
+autocmd FileType htmldjango setlocal shiftwidth=2 tabstop=2 softtabstop=2
+autocmd FileType javascript setlocal shiftwidth=2 tabstop=2 softtabstop=2
 
 "Helping Python Indentation
 highlight BadWhitespace ctermbg=red guibg=red
@@ -191,6 +195,11 @@ set autoread
 syntax on
 set ruler
 set number
+
+" when scrolling, keep cursor 3 lines away from screen border
+set scrolloff=3
+
+
 
 "" Configuring vim-instant-markdown"
 let g:instant_markdown_autostart=0
@@ -368,3 +377,7 @@ nnoremap <space> za
 
 " Enable doctring preview for folded code.
 let g:SimpylFold_docstring_preview=1
+
+" Map Capslock 
+au VimEnter * !xmodmap -e 'clear Lock' -e 'keycode 0x42 = Escape'
+au VimLeave * !xmodmap -e 'clear Lock' -e 'keycode 0x42 = Caps_Lock'
