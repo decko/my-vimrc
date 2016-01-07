@@ -1,10 +1,8 @@
 " This is my vimrc file
 " Will add some goodness later
 
-set nocompatible
 set runtimepath+=~/.vim/plugged/vim-plug
 set encoding=utf-8
-filetype off
 "So lets install some goodness here
 
 let vimplug=expand('~/.vim/bundle/vim-plug/plug.vim')
@@ -23,7 +21,8 @@ source ~/.vim/bundle/vim-plug/plug.vim
 call plug#begin('~/.vim/plugged')
 
 " Install core dev stuff
-"
+" Plug 'Valloric/YouCompleteMe'
+
 " Suppa generic stuff
 Plug 'scrooloose/syntastic'
 Plug 'majutsushi/tagbar'
@@ -64,6 +63,7 @@ Plug 'ervandew/supertab'
 " Code Snippets
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
+Plug 'sudar/vim-arduino-snippets' " Arduino Snippets
 
 " Cool git stuff
 Plug 'tpope/vim-fugitive'
@@ -109,10 +109,7 @@ Plug 'motemen/git-vim'
 
 Plug 'rosenfeld/conque-term'
 
-
-
 Plug 'scrooloose/syntastic'
-
 
 Plug 't9md/vim-choosewin'
 
@@ -130,11 +127,25 @@ if exists('g:first_time_run')
 	PlugUpdate
 endif
 
-" filetype plugin indent on
-" syntax on
+set nocompatible
+filetype plugin indent on
+syntax on
 
-"Let's configure the mess
+" Make search work as expected
+set hlsearch incsearch smartcase
+
+" And do some visual configuration
+set number " Show line numbers
+set ruler " Always show the ruler
+set showcmd " Show command in status line
+set showmatch " Show matching brackets
+set cursorline " Highlight cursor line
+set scrolloff=5 " Let 5 lines before scrolling
+set wrap linebreak " Break the lines that exceed textwidth 
+set laststatus=2 " Always shows the status line 
+
 " Enable folding
+set foldenable
 set foldmethod=indent
 set foldlevel=99
 let g:SimpyFold_docstring_preview=1
@@ -145,6 +156,13 @@ autocmd BufWinLeave *.py setlocal foldexpr< foldmethod<
 autocmd FileType html setlocal shiftwidth=2 tabstop=2 softtabstop=2
 autocmd FileType htmldjango setlocal shiftwidth=2 tabstop=2 softtabstop=2
 autocmd FileType javascript setlocal shiftwidth=2 tabstop=2 softtabstop=2
+
+autocmd BufNewFile,BufReadPost *.ino,*.pde set filetype=arduino
+
+" Suffixes that get lower priority when doing tab completion for filenames.
+" These are files we are not likely to want to edit or read.
+set suffixes+=.bak,~,.swp,.o,.info,.aux,.log,.dvi,.bbl,.blg,.brf,.cb,.ind,.idx,.ilg,.inx,.out,.toc,.pyc
+set wildignore+=*.bak,~*,*.swp,*.o,*.info,*.aux,*.log,*.dvi,*.bbl,*.blg,*.brf,*.cb,*.ind,*.idx,*.ilg,*.inx,*.out,*.toc,*.pyc"
 
 "Helping Python Indentation
 highlight BadWhitespace ctermbg=red guibg=red
@@ -169,12 +187,6 @@ let mapleader=','
 "" Enable hidden buffers
 set hidden
 
-"" Searching
-set hlsearch
-set incsearch
-set ignorecase
-set smartcase
-
 "" Encoding
 set bomb
 set binary
@@ -191,16 +203,6 @@ set shell=/bin/sh
 " Reload files automatically
 set autoread
 
-"" Visual Settings
-syntax on
-set ruler
-set number
-
-" when scrolling, keep cursor 3 lines away from screen border
-set scrolloff=3
-
-
-
 "" Configuring vim-instant-markdown"
 let g:instant_markdown_autostart=0
 
@@ -212,11 +214,6 @@ set background=dark
 colorscheme solarized
 
 set mousemodel=popup
-set nocursorline
-
-
-"" Status Bar
-set laststatus=2
 
 "" Use modeline overrides
 set modeline
@@ -255,9 +252,9 @@ cnoreabbrev Q q
 cnoreabbrev Qall qall
 
 " Configuring UltiSnips
-let g:UltiSnipsExpandTrigger="<tab>"
-let g:UltiSnipsJumpForwardTrigger="<c-b>"
-let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+" let g:UltiSnipsExpandTrigger="<tab>"
+" let g:UltiSnipsJumpForwardTrigger="<c-b>"
+" let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 
 " Disable AutoComplPop.
 let g:acp_enableAtStartup = 0
@@ -326,7 +323,6 @@ let g:NERDTreeMapOpenInTabSilent = '<RightMouse>'
 let g:NERDTreeWinSize = 30
 let g:NERDTreeShowHidden = 1
 let g:NERDTreeQuitOnOpen = 1
-set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc,*.db,*.sqlite
 nnoremap <silent> <F2> :NERDTreeFind<CR>
 noremap <F3> :NERDTreeToggle<CR>
 
@@ -340,7 +336,6 @@ noremap <Leader>v :<C-u>vsplit<CR>
 
 " ctrlp.vim
 set wildmode=list:longest,list:full
-set wildignore+=*.o,*.obj,.git,*.rbc,*.pyc,__pycache__
 let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn|tox)$'
 let g:ctrlp_user_command = "find %s -type f | grep -Ev '"+ g:ctrlp_custom_ignore +"'"
 let g:ctrlp_use_caching = 0
@@ -368,10 +363,6 @@ let g:tagbar_autoclose = 1
 " supertab
 let g:SuperTabDefaultCompletionType = "context"
 
-" Enable folding
-set foldmethod=indent
-set foldlevel=99
-
 " Enable folding with the spacebar
 nnoremap <space> za
 
@@ -379,5 +370,5 @@ nnoremap <space> za
 let g:SimpylFold_docstring_preview=1
 
 " Map Capslock 
-au VimEnter * !xmodmap -e 'clear Lock' -e 'keycode 0x42 = Escape'
-au VimLeave * !xmodmap -e 'clear Lock' -e 'keycode 0x42 = Caps_Lock'
+" au VimEnter * !xmodmap -e 'clear Lock' -e 'keycode 0x42 = Escape'
+" au VimLeave * !xmodmap -e 'clear Lock' -e 'keycode 0x42 = Caps_Lock'
